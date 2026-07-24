@@ -1,0 +1,258 @@
+{% extends 'base.html' %}
+
+{% block title %}My Math Teacher - Roadmap{% endblock %}
+
+{% block extra_css %}
+{% load static %}
+<style>
+    /* ============ WHO IT'S FOR & ROADMAP SECTION ============ */
+    .audience-roadmap-section {
+        background-color: var(--text-white);
+        color: var(--text-dark);
+        padding: 80px 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .audience-roadmap-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: start;
+    }
+
+    .section-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin-bottom: 30px;
+        color: var(--text-dark);
+    }
+
+    /* Left: Who It's For Cards */
+    .audience-cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .audience-card {
+        background: var(--text-white);
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 24px 20px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .audience-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .audience-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .audience-header .emoji {
+        font-size: 1.5rem;
+    }
+
+    .audience-header h3 {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: var(--text-dark);
+    }
+
+    .audience-card p {
+        font-size: 0.85rem;
+        color: #64748b;
+        line-height: 1.5;
+    }
+
+    /* Right: Roadmap Container */
+    .roadmap-wrapper {
+        position: relative;
+        overflow: hidden;
+        border-left: 1px solid #f1f5f9;
+        padding-left: 40px;
+    }
+
+    .roadmap-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px 30px;
+        position: relative;
+        z-index: 2;
+        max-width: 60%;
+    }
+
+    .roadmap-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--text-dark);
+    }
+
+    /* Checkbox & Unchecked Icons */
+    .roadmap-icon {
+        width: 22px;
+        height: 22px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.85rem;
+        flex-shrink: 0;
+    }
+
+    .roadmap-icon.completed {
+        background-color: var(--success);
+        color: var(--text-white);
+    }
+
+    .roadmap-icon.pending {
+        border: 2px solid #cbd5e1;
+        background-color: var(--text-white);
+    }
+
+    /* Winding Road Graphic Styling */
+    .road-illustration {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 50%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    /* Responsive Grid Adjustments */
+    @media (max-width: 1200px) {
+        .audience-roadmap-grid {
+            grid-template-columns: 1fr;
+            gap: 50px;
+        }
+
+        .roadmap-wrapper {
+            border-left: none;
+            padding-left: 0;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 40px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .audience-cards {
+            grid-template-columns: 1fr;
+        }
+
+        .roadmap-grid {
+            max-width: 100%;
+        }
+
+        .road-illustration {
+            opacity: 0.3;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="audience-roadmap-section">
+    <div class="container">
+        <div class="audience-roadmap-grid">
+
+            <!-- Left: Who It's For -->
+            <div>
+                <h2 class="section-title">Who It's For</h2>
+                <div class="audience-cards">
+
+                    <!-- Learners -->
+                    <div class="audience-card">
+                        <div class="audience-header">
+                            <span class="emoji"><img src="{% static 'images/roadmap_images/icons-teaching.png' %}" alt="Home Screen" /></span>
+                            <h3>Learners</h3>
+                        </div>
+                        <p>Learn at your own pace with personalized AI support.</p>
+                    </div>
+
+                    <!-- Teachers -->
+                    <div class="audience-card">
+                        <div class="audience-header">
+                            <span class="emoji"><img src="{% static 'images/roadmap_images/icons-teacher- (1).png' %}" alt="Home Screen" /></span>
+                            <h3>Teachers</h3>
+                        </div>
+                        <p>Track student performance and identify learning gaps.</p>
+                    </div>
+
+                    <!-- Parents -->
+                    <div class="audience-card">
+                        <div class="audience-header">
+                            <span class="emoji"><img src="{% static 'images/roadmap_images/icons-parent-(2).png' %}" alt="Home Screen" /></span>
+                            <h3>Parents</h3>
+                        </div>
+                        <p>Monitor your child's progress and encourage consistent learning.</p>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Right: Our Roadmap -->
+            <div class="roadmap-wrapper">
+                <h2 class="section-title">Our Roadmap</h2>
+
+                <div class="roadmap-grid">
+                    
+                    <div class="roadmap-item">
+                        <div class="roadmap-icon completed">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                        <span>MVP Complete</span>
+                    </div>
+
+                    <div class="roadmap-item">
+                        <div class="roadmap-icon pending"></div>
+                        <span>Teacher Portal</span>
+                    </div>
+
+                    <div class="roadmap-item">
+                        <div class="roadmap-icon completed">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                        <span>AI Teacher</span>
+                    </div>
+
+                    <div class="roadmap-item">
+                        <div class="roadmap-icon pending"></div>
+                        <span>Parent Dashboard</span>
+                    </div>
+
+                    <div class="roadmap-item">
+                        <div class="roadmap-icon pending"></div>
+                        <span>Play Store Release</span>
+                    </div>
+
+                    <div class="roadmap-item">
+                        <div class="roadmap-icon pending"></div>
+                        <span>National Launch</span>
+                    </div>
+
+                    <div class="roadmap-item">
+                        <div class="roadmap-icon pending"></div>
+                        <span>School Partnerships</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock content %}

@@ -1,0 +1,254 @@
+{% extends 'base.html' %}
+
+{% block title %}My Math Teacher - Features{% endblock %}
+
+{% block extra_css %}
+{% load static %}
+<style>
+    /* ============ POWERFUL FEATURES SECTION ============ */
+    .features-section {
+        background-color: var(--text-white);
+        color: var(--text-dark);
+        padding: 80px 0;
+    }
+
+    .features-header {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .features-header h2 {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--text-dark);
+    }
+
+    /* Features Grid (5 columns on desktop) */
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 20px;
+    }
+
+    .feature-card {
+        background-color: var(--text-white);
+        border: 2px solid rgba(0, 61, 141, 0.46);
+        border-radius: 16px;
+        padding: 24px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 12px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.55);
+    }
+
+    /* Icon Box Base */
+    .feature-icon {
+        width: 160px;
+        height: 150px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-bottom: 10px;
+        margin-top: 5px;
+    }
+
+    /* Make icon images fit perfectly */
+    .feature-icon img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+
+    /* ===== Individual Icon Backgrounds ===== */
+    .icon-blue {
+        background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+    }
+
+    .icon-purple {
+        background: linear-gradient(135deg, #f3e8ff, #d8b4fe);
+    }
+
+    .icon-deep-purple {
+        background: linear-gradient(135deg, #e9d5ff, #c084fc);
+    }
+
+    .icon-orange {
+        background: linear-gradient(135deg, #ffedd5, #fed7aa);
+    }
+
+    .icon-green {
+        background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+    }
+
+    .icon-amber {
+        background: linear-gradient(135deg, #fef3c7, #fde68a);
+    }
+
+    /* Card Content */
+    .feature-content h3 {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 6px;
+    }
+
+    .feature-content p {
+        font-size: 0.8rem;
+        color: #64748b;
+        line-height: 1.45;
+    }
+
+    /* Responsive Grid */
+    @media (max-width: 1200px) {
+        .features-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .features-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 500px) {
+        .features-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="features-section">
+    <div class="container">
+        
+        <div class="features-header">
+            <h2>Powerful Features</h2>
+        </div>
+
+        <div class="features-grid">
+
+            <!-- 1. CAPS Curriculum -->
+            <div class="feature-card">
+                <div class="feature-icon icon-blue">
+                    <img src="{% static 'images/features_images/smiln.png' %}" alt="CAPS Curriculum" />
+                </div>
+                <div class="feature-content">
+                    <h3>CAPS Curriculum</h3>
+                    <p>Fully aligned with the South African CAPS curriculum.</p>
+                </div>
+            </div>
+
+            <!-- 2. AI Marker & Explainer -->
+            <div class="feature-card">
+                <div class="feature-icon icon-purple">
+                    <img src="{% static 'images/features_images/robot.png' %}" alt="AI Marker & Explainer" />
+                </div>
+                <div class="feature-content">
+                    <h3>AI Marker & Explainer</h3>
+                    <p>Intelligent AI that explains concepts in simple ways.</p>
+                </div>
+            </div>
+
+            <!-- 3. Step-by-Step Solutions -->
+            <div class="feature-card">
+                <div class="feature-icon icon-deep-purple">
+                    <img src="{% static 'images/features_images/step.png' %}" alt="Step-by-Step Solutions" />
+                </div>
+                <div class="feature-content">
+                    <h3>Step-by-Step Solutions</h3>
+                    <p>Detailed, step-by-step explanations for every answer.</p>
+                </div>
+            </div>
+
+            <!-- 4. Practice Questions -->
+            <div class="feature-card">
+                <div class="feature-icon icon-orange">
+                    <img src="{% static 'images/features_images/arttower.png' %}" alt="Practice Questions" />
+                </div>
+                <div class="feature-content">
+                    <h3>Practice Questions</h3>
+                    <p>Hundreds of questions with different previous question papers.</p>
+                </div>
+            </div>
+
+            <!-- 5. Progress Dashboard -->
+            <div class="feature-card">
+                <div class="feature-icon icon-blue">
+                    <img src="{% static 'images/features_images/colin.png' %}" alt="Progress Dashboard" />
+                </div>
+                <div class="feature-content">
+                    <h3>Progress Dashboard</h3>
+                    <p>Visual insights into your learning progress.</p>
+                </div>
+            </div>
+
+            <!-- 6. Parent Reports -->
+            <div class="feature-card">
+                <div class="feature-icon icon-blue">
+                    <img src="{% static 'images/features_images/parent.png' %}" alt="Parent Reports" />
+                </div>
+                <div class="feature-content">
+                    <h3>Parent Reports</h3>
+                    <p>Keep parents informed with detailed reports.</p>
+                </div>
+            </div>
+
+            <!-- 7. Teacher Dashboard -->
+            <div class="feature-card">
+                <div class="feature-icon icon-green">
+                    <img src="{% static 'images/features_images/teacher.png' %}" alt="Teacher Dashboard" />
+                </div>
+                <div class="feature-content">
+                    <h3>Teacher Dashboard</h3>
+                    <p>Teachers can monitor class performance in real-time.</p>
+                </div>
+            </div>
+
+            <!-- 8. Report Card -->
+            <div class="feature-card">
+                <div class="feature-icon icon-deep-purple">
+                    <img src="{% static 'images/features_images/report.png' %}" alt="Full Report Card" />
+                </div>
+                <div class="feature-content">
+                    <h3>Full Report Card</h3>
+                    <p>Download Full Report with all student daily activities on the app.</p>
+                </div>
+            </div>
+
+            <!-- 9. Gamification -->
+            <div class="feature-card">
+                <div class="feature-icon icon-amber">
+                    <img src="{% static 'images/features_images/dart.png' %}" alt="Gamification" />
+                </div>
+                <div class="feature-content">
+                    <h3>Gamification</h3>
+                    <p>Earn points, badges and achievements.</p>
+                </div>
+            </div>
+
+            <!-- 10. Notifications -->
+            <div class="feature-card">
+                <div class="feature-icon icon-blue">
+                    <img src="{% static 'images/features_images/brenty.png' %}" alt="Notifications" />
+                </div>
+                <div class="feature-content">
+                    <h3>Notifications</h3>
+                    <p>Get notified when it's been 3 days since your last practice question.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock content %}

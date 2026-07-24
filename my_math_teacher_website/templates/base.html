@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Math Teacher{% endblock %}</title>
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============ RESET & GLOBAL SETTINGS ============ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #3b82f6;
+            --background: #0b0f19;
+            --background-light: #111827;
+            --background-footer: #070a12;
+            --card-bg: #1e293b;
+            --text-white: #ffffff;
+            --text-light: #cbd5e1;
+            --text-muted: #94a3b8;
+            --text-dark: #0f172a;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-subtle: rgba(255, 255, 255, 0.05);
+            --input-border: #334155;
+            --shadow-blue: 0 0 40px rgba(37, 99, 235, 0.35);
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text-white);
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ============ NAVBAR ============ */
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-subtle);
+            position: relative;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--text-white);
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: transparent;
+        }
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+            font-size: 0.9rem;
+            color: var(--text-white);
+            align-items: center;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .btn-nav {
+            background-color: var(--primary);
+            color: var(--text-white);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+        .btn-nav:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        /* ---------- MOBILE STYLES ---------- */
+        @media (max-width: 900px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background-color: var(--background-light);
+                padding: 20px 0;
+                margin-top: 15px;
+                border-radius: 8px;
+                gap: 15px;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links .btn-nav {
+                display: block;
+                text-align: center;
+                width: fit-content;
+                margin: 0 auto;
+            }
+
+            /* Hide the standalone desktop join button */
+            nav > .btn-nav {
+                display: none;
+            }
+
+            /* Ensure the mobile join button is visible */
+            .mobile-join-btn {
+                display: block !important;
+                background-color: var(--primary);
+                color: white;
+                padding: 10px 20px;
+                border-radius: 8px;
+                text-align: center;
+                font-weight: 600;
+            }
+        }
+
+        /* Hide the mobile join button on desktop (prevents duplicate) */
+        @media (min-width: 901px) {
+            .mobile-join-btn {
+                display: none !important;
+            }
+        }
+
+        /* ============ FOOTER ============ */
+        footer {
+            background-color: var(--background-footer);
+            padding: 60px 0 30px;
+            border-top: 1px solid var(--border-subtle);
+            color: var(--text-muted);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 2fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h4 {
+            color: var(--text-white);
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-size: 0.85rem;
+        }
+
+        .newsletter-input {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .newsletter-input input {
+            background: var(--card-bg);
+            border: 1px solid var(--input-border);
+            padding: 8px 12px;
+            border-radius: 6px;
+            color: var(--text-white);
+            width: 100%;
+        }
+
+        .newsletter-input button {
+            background: var(--primary);
+            color: var(--text-white);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 900px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <!-- ============ NAVBAR ============ -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <div class="logo-icon"><img src="{% static 'images/logo_image/Logo2.png' %}" alt="My Math Teacher Logo" /></div>
+                    My Math Teacher App
+                </div>
+
+                <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'features' %}">Features</a></li>
+                    <li><a href="{% url 'how_it_works' %}">How It Works</a></li>
+                    <li><a href="{% url 'screenshots' %}">Screenshots</a></li>
+                    <li><a href="{% url 'roadmap' %}">Roadmap</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                    <!-- Mobile join button (visible only on mobile) -->
+                    <li><a href="{% url 'join_waiting_list' %}" class="mobile-join-btn">Join Waiting List</a></li>
+                </ul>
+
+                <!-- Desktop join button (visible only on desktop) -->
+                <a href="{% url 'join_waiting_list' %}" class="btn-nav desktop-join">Join Waiting List</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ============ PAGE CONTENT ============ -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="logo">
+                        <div class="logo-icon"><img src="{% static 'images/logo_image/Logo2.png' %}" alt="My Math Teacher Logo" /></div>
+                        My Math Teacher App
+                    </div>
+                    <p style="font-size: 0.85rem; max-width: 250px">
+                        Empowering South African learners with AI-powered mathematics education aligned
+                        with CAPS.
+                    </p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'features' %}">Features</a></li>
+                        <li><a href="{% url 'how_it_works' %}">How It Works</a></li>
+                        <li><a href="{% url 'screenshots' %}">Screenshots</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="{% url 'roadmap' %}">Roadmap</a></li>
+                        <li><a href="{% url 'contact' %}">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Newsletter</h4>
+                    <p style="font-size: 0.85rem">Subscribe to get updates.</p>
+                    <div class="newsletter-input">
+                        <input type="email" placeholder="Your email" />
+                        <button>Subscribe</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            document.getElementById('nav-links').classList.toggle('active');
+        });
+    </script>
+
+</body>
+</html>

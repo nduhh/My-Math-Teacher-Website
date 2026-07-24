@@ -1,0 +1,416 @@
+{% extends 'base.html' %}
+
+{% block title %}My Math Teacher - Home{% endblock %}
+
+{% block extra_css %}
+{% load static %}
+<style>
+    /* Additional local variables if needed */
+    :root {
+        --phone-bg: #090d16;
+        --purple-accent: #a855f7;
+        --text-slate: #475569;
+        --badge-bg: rgba(255, 255, 255, 0.05);
+        --badge-border: rgba(255, 255, 255, 0.1);
+        --hero-stat-bg: rgba(255, 255, 255, 0.03);
+        --hero-radial-glow: rgba(37, 99, 235, 0.15);
+        --phone-shadow: rgba(59, 130, 246, 0.4);
+    }
+
+    /* ============ HERO SECTION ============ */
+    .hero {
+        position: relative;
+        padding: 70px 0 100px;
+        background: radial-gradient(circle at 75% 30%, var(--hero-radial-glow) 0%, transparent 60%);
+    }
+
+    .hero-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        align-items: center;
+    }
+
+    .hero-content h1 {
+        font-size: 3.2rem;
+        font-weight: 800;
+        line-height: 1.15;
+        margin-bottom: 20px;
+        color: var(--text-white);
+    }
+
+    .hero-content h1 span {
+        color: var(--primary-light);
+    }
+
+    .hero-content p {
+        color: var(--text-muted);
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 30px;
+        max-width: 480px;
+    }
+
+    .cta-buttons {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+
+    .btn-primary {
+        background-color: var(--primary);
+        color: var(--text-white);
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-secondary {
+        background-color: var(--text-white);
+        color: var(--text-dark);
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .badges {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 35px;
+    }
+
+    .badge {
+        background: var(--badge-bg);
+        border: 1px solid var(--badge-border);
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        color: var(--text-light);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .stats {
+        display: flex;
+        gap: 30px;
+        background: var(--hero-stat-bg);
+        border: 1px solid var(--border);
+        padding: 15px 25px;
+        border-radius: 12px;
+        width: fit-content;
+    }
+
+    .stat-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .stat-item i {
+        font-size: 1.2rem;
+        color: var(--primary-light);
+    }
+
+    .stat-number {
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+
+    .stat-label {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+    }
+
+    /* --- Phone 360° Animation --- */
+    .hero-image-wrapper {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        perspective: 1200px;
+    }
+
+    .phone-container {
+        width: 320px;
+        border-radius: 40px;
+        box-shadow: 0 0 50px var(--phone-shadow);
+        transform-style: preserve-3d;
+        animation: turn360 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    }
+
+    @keyframes turn360 {
+        0% {
+            transform: rotateY(0deg) scale(0.8);
+            opacity: 0;
+        }
+        50% {
+            transform: rotateY(180deg) scale(1.05);
+            opacity: 0.8;
+        }
+        100% {
+            transform: rotateY(360deg) scale(1);
+            opacity: 1;
+        }
+    }
+
+    .phone-mockup {
+        width: 100%;
+        border-radius: 36px;
+        border: 8px solid var(--card-bg);
+        background-color: var(--phone-bg);
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    /* FIX: Make the image fill the phone screen */
+    .phone-mockup img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 20px;
+    }
+
+    .phone-header {
+        background: var(--badge-bg);
+        padding: 12px;
+        border-radius: 12px;
+        font-size: 0.8rem;
+    }
+
+    .phone-card {
+        background: var(--card-bg);
+        padding: 15px;
+        border-radius: 12px;
+        font-size: 0.85rem;
+    }
+
+    .progress-bar {
+        height: 6px;
+        background: var(--input-border);
+        border-radius: 3px;
+        margin-top: 8px;
+        overflow: hidden;
+    }
+
+    .progress-fill {
+        width: 75%;
+        height: 100%;
+        background: var(--primary-light);
+    }
+
+    .phone-btn {
+        background: var(--primary);
+        text-align: center;
+        padding: 8px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.8rem;
+        margin-top: 8px;
+        cursor: pointer;
+    }
+
+    /* ============ INFO SECTION ============ */
+    .info-section {
+        background-color: var(--text-white);
+        color: var(--text-dark);
+        padding: 80px 0;
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 40px;
+    }
+
+    .info-col h3 {
+        font-size: 1.3rem;
+        margin-bottom: 25px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .problem h3 {
+        color: var(--danger);
+    }
+    .solution h3 {
+        color: var(--success);
+    }
+    .how-it-works h3 {
+        color: var(--primary-light);
+    }
+
+    .info-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .info-list li {
+        display: flex;
+        gap: 12px;
+        font-size: 0.95rem;
+        color: var(--text-slate);
+        line-height: 1.5;
+    }
+
+    .info-list li i {
+        margin-top: 3px;
+    }
+
+    .problem li i {
+        color: var(--danger);
+    }
+    .solution li i {
+        color: var(--success);
+    }
+
+    /* Robot image sizing */
+    .robot-graphic {
+        text-align: center;
+    }
+
+    .robot-graphic img {
+        max-width: 100%;
+        height: auto;
+        width: 300px; 
+    }
+
+    @media (max-width: 900px) {
+        .hero-grid,
+        .info-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <!-- ============ HERO SECTION ============ -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+
+                <!-- Left Content -->
+                <div class="hero-content">
+                    <h1>Learn Mathematics Smarter with <span>AI</span></h1>
+                    <p>
+                        <strong>My Math Teacher</strong> is an AI-powered mathematics learning platform built specifically for South African learners, helping them succeed in the <strong>CAPS (Curriculum and Assessment Policy Statement)</strong> curriculum. The platform delivers personalized learning experiences with clear step-by-step explanations, interactive practice questions, and instant feedback to make mathematics easier to understand.
+
+                        <br><br>
+
+                        Whether learners are revising classroom topics, preparing for tests and exams, or strengthening difficult concepts, My Math Teacher provides the guidance and support they need to build confidence, improve problem-solving skills, and achieve better academic results all at their own pace, anytime and anywhere.
+                    </p>
+                    <div class="cta-buttons">
+                        <a href="#" class="btn-primary"><i class="fa-solid fa-rocket"></i> Watch Demo</a>
+                        <!-- FIXED: Now points to actual waiting list page -->
+                        <a href="{% url 'join_waiting_list' %}" class="btn-secondary"><i class="fa-regular fa-envelope"></i> Join Waiting List</a>
+                    </div>
+
+                    <div class="badges">
+                        <div class="badge"><i class="fa-solid fa-lightbulb"></i> AI Powered</div>
+                        <div class="badge"><i class="fa-solid fa-graduation-cap"></i> CAPS Aligned</div>
+                        <div class="badge"><i class="fa-solid fa-mobile-screen"></i> Available Anywhere</div>
+                    </div>
+
+                </div>
+
+                <!-- Right Side: Phone with 360 Turn Animation -->
+                <div class="hero-image-wrapper">
+                    <div class="phone-container">
+                        <div class="phone-mockup">
+                          <img src="{% static 'images/screenshorts_images/home_page.jpeg' %}" alt="My Math Teacher App Screenshot" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ INFO SECTION ============ -->
+    <section class="info-section">
+        <div class="container">
+            <div class="info-grid">
+
+                <!-- Problem -->
+                <div class="info-col problem">
+                    <h3><i class="fa-solid fa-circle-exclamation"></i> The Problem</h3>
+                    <ul class="info-list">
+                        <li>
+                            <i class="fa-solid fa-circle-dot"></i> Many learners struggle with mathematics
+                            because they don't receive enough one-to-one support.
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-circle-dot"></i> Traditional tutoring is often expensive
+                            and inaccessible, especially in underserved communities.
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-circle-dot"></i> Learners lack personalized feedback and
+                            struggle to track their own progress.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Solution -->
+                <div class="info-col solution">
+                    <h3><i class="fa-solid fa-circle-check"></i> Our Solution</h3>
+                    <p style="color: var(--text-slate); font-size: 0.95rem; line-height: 1.5; margin-bottom: 15px">
+                        My Math Teacher makes quality mathematics education available to every learner.
+                    </p>
+                    <p style="color: var(--text-slate); font-size: 0.95rem; line-height: 1.5">
+                        AI-powered explanations, practice exercises, and progress tracking help learners
+                        build confidence and master mathematics.
+                    </p>
+                    <div class="robot-graphic"><img src="{% static 'images/home_images/robot(2).png' %}" alt="My Math Teacher Robot" /></div>
+                </div>
+
+                <!-- How It Works -->
+                <div class="info-col how-it-works">
+                    <h3><i class="fa-solid fa-compass"></i> How It Works</h3>
+                    <ul class="info-list">
+                        <li>
+                            <i class="fa-solid fa-book-open" style="color: var(--primary-light)"></i>
+                            <div>
+                                <strong>Learn</strong>
+                                <div>Interactive lessons aligned with CAPS.</div>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-pen-to-square" style="color: var(--primary-light)"></i>
+                            <div>
+                                <strong>Practice</strong>
+                                <div>Solve hundreds of exercises.</div>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-comment-dots" style="color: var(--primary-light)"></i>
+                            <div>
+                                <strong>Ask AI</strong>
+                                <div>Get step-by-step explanations.</div>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-chart-line" style="color: var(--primary-light)"></i>
+                            <div>
+                                <strong>Track Progress</strong>
+                                <div>Monitor performance and identify weak areas.</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+{% endblock %}
