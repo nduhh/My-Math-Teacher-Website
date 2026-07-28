@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.conf import settings
 from .forms import ContactForm, WaitingListForm
 from .models import Contact, WaitingList
+from django.db import IntegrityError
 
 def home(request):
     return render(request, "home.html")
@@ -77,17 +78,23 @@ def join_waiting_list(request):
     if request.method == 'POST':
         form = WaitingListForm(request.POST)
         if form.is_valid():
-            # Save to database
-            WaitingList.objects.create(
-                full_name=form.cleaned_data['full_name'],
-                email=form.cleaned_data['email'],
-                school=form.cleaned_data.get('school', ''),
-                grade=form.cleaned_data.get('grade', ''),
-                province=form.cleaned_data.get('province', ''),
-            )
-            messages.success(request, 'You have been added to the waiting list!')
-            return redirect('join_waiting_list')
+            # Save to database - but catch duplicate email error
+            try:
+                WaitingList.objects.create(
+                    full_name=form.cleaned_data['full_name'],
+                    email=form.cleaned_data['email'],
+                    school=form.cleaned_data.get('school', ''),
+                    grade=form.cleaned_data.get('grade', ''),
+                    province=form.cleaned_data.get('province', ''),
+                )
+                messages.success(request, 'You have been added to the waiting list!')
+                return redirect('join_waiting_list')
+            except IntegrityError:
+                # Duplicate email - add a field-specific error
+                messages.error(request, 'This email address is already on the waiting list.')
+                # form.add_error('email', 'This email is already registered.')
         else:
+            # Form validation failed
             messages.error(request, 'Please correct the errors below.')
     else:
         form = WaitingListForm()

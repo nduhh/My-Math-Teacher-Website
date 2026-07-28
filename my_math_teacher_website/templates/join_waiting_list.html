@@ -158,6 +158,9 @@
         margin-bottom: 20px;
         font-size: 0.9rem;
         font-weight: 500;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
     .message-success {
         background-color: #dcfce7;
@@ -168,6 +171,40 @@
         background-color: #fee2e2;
         color: #991b1b;
         border: 1px solid #fecaca;
+    }
+    .message-close {
+        background: none;
+        border: none;
+        font-size: 1.3rem;
+        line-height: 1;
+        color: inherit;
+        opacity: 0.7;
+        cursor: pointer;
+        padding: 0 0 0 15px;
+        font-weight: 400;
+    }
+    .message-close:hover {
+        opacity: 1;
+    }
+
+    /* Loading spinner for submit button */
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+    .btn-loading .spinner {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(255,255,255,0.3);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: spin 0.6s linear infinite;
+        margin-right: 8px;
+        vertical-align: middle;
+    }
+    .btn-loading {
+        pointer-events: none;
+        opacity: 0.8;
     }
 
     /* Responsive: stack on mobile */
@@ -185,7 +222,7 @@
 
 {% block content %}
 
-<!-- Django messages -->
+<!-- Django messages – now dismissible -->
 {% if messages %}
 <div class="container" style="margin-bottom: 30px;">
     <div id="django-messages-container">
@@ -193,7 +230,8 @@
         <div class="message-banner 
             {% if message.tags == 'success' %}message-success
             {% else %}message-error{% endif %}">
-            {{ message }}
+            <span>{{ message }}</span>
+            <button class="message-close" onclick="this.parentElement.style.display='none'">&times;</button>
         </div>
         {% endfor %}
     </div>
@@ -263,7 +301,7 @@
                         {% endif %}
                     </div>
 
-                    <button type="submit" class="btn-submit">Join the Waiting List</button>
+                    <button type="submit" class="btn-submit" id="waitlistSubmitBtn">Join the Waiting List</button>
                 </form>
                 <p class="form-note">Be the first to know when we launch!</p>
             </div>
@@ -273,20 +311,39 @@
 </section>
 
 <script>
-    // Auto-hide success messages after 4 seconds
+    // 1. Loading spinner on form submission
+    (function() {
+        var form = document.querySelector('.waitlist-form');
+        var btn = document.getElementById('waitlistSubmitBtn');
+
+        if (form && btn) {
+            form.addEventListener('submit', function(e) {
+                if (!form.checkValidity()) return;
+
+                btn.classList.add('btn-loading');
+                btn.disabled = true;
+                btn.innerHTML = '<span class="spinner"></span> Joining...';
+            });
+        }
+    })();
+
+    // 2. Auto-hide success messages after 4 seconds (if user doesn't close manually)
     document.addEventListener('DOMContentLoaded', function() {
         var successBanners = document.querySelectorAll('.message-success');
         successBanners.forEach(function(banner) {
             setTimeout(function() {
-                banner.style.transition = 'opacity 0.5s ease';
-                banner.style.opacity = '0';
-                setTimeout(function() {
-                    banner.remove();
-                    var container = document.getElementById('django-messages-container');
-                    if (container && container.children.length === 0) {
-                        container.remove();
-                    }
-                }, 500);
+                // Only fade out if it's still visible
+                if (banner.style.display !== 'none') {
+                    banner.style.transition = 'opacity 0.5s ease';
+                    banner.style.opacity = '0';
+                    setTimeout(function() {
+                        banner.remove();
+                        var container = document.getElementById('django-messages-container');
+                        if (container && container.children.length === 0) {
+                            container.remove();
+                        }
+                    }, 500);
+                }
             }, 4000);
         });
     });
